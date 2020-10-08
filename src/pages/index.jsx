@@ -3,6 +3,7 @@ import React from 'react'
 import NameForm from '../components/name-form'
 import EssayForm from '../components/essay-form'
 import FlavorForm from '../components/flavor-form'
+import MultiInputForm from '../components/multi-input-form'
 
 export default function Home () {
   return (
@@ -19,6 +20,7 @@ export default function Home () {
       <FlavorForm />
       <br />
       <br />
+      <MultiInputForm />
     </>
   )
 }

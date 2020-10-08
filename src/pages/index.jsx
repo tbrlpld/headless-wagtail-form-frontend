@@ -21,6 +21,10 @@ export default function Home () {
       <br />
       <br />
       <MultiInputForm />
+      <br />
+      <br />
+      <input value='hi' />
+      <input value={null} disabled />
     </>
   )
 }

@@ -24,8 +24,8 @@ export default function Home () {
       <MultiInputForm />
       <br />
       <br />
-      <input value='hi' />
-      <input value={null} disabled />
+      <input defaultValue='hi' />
+      <input defaultValue={undefined} disabled />
       <br />
       <br />
       <UncontrolledNameForm />

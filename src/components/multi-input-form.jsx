@@ -35,7 +35,7 @@ export default class MultiInputForm extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <label htmlFor='isGoing'>
           Are you attending:
-          <input name='isGoing' type='checkbox' value={this.state.isGoing} onChange={this.handleChange} />
+          <input name='isGoing' type='checkbox' checked={this.state.isGoing} onChange={this.handleChange} />
         </label>
         <label htmlFor='numberOfGuests'>
           Number of guests:

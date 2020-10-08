@@ -25,7 +25,7 @@ export default class FlavorForm extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <label htmlFor='essay'>
           Flavor:
-          <select value={this.state.value} onChange={this.handleChange}>
+          <select defaultValue={this.state.value} onBlur={this.handleChange}>
             <option value='coconut'>Coconut</option>
             <option value='grapefruit'>Grapefruit</option>
             <option value='mango'>Mango</option>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import style from './uncontrolled-name-form.modules.css'
+import style from './uncontrolled-name-form.module.css'
 
 export default class UncontrolledNameForm extends React.Component {
   constructor (props) {
@@ -31,8 +31,8 @@ export default class UncontrolledNameForm extends React.Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <label htmlFor='name'>
-          Name (include Doe):
-          <input type='text' value='' ref={this.input} onChange={this.validateInput} />
+          Name (include Doe)  :
+          <input type='text' ref={this.input} onChange={this.validateInput} />
         </label>
         <input type='submit' value='Submit' />
       </form>

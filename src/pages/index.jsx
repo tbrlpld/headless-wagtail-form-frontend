@@ -1,10 +1,10 @@
 import React from 'react'
 
-import NameForm from '../components/name-form'
-import EssayForm from '../components/essay-form'
-import FlavorForm from '../components/flavor-form'
-import MultiInputForm from '../components/multi-input-form'
-import UncontrolledNameForm from '../components/uncontrolled-name-form'
+import NameForm from '../components/predefined-forms/name-form'
+import EssayForm from '../components/predefined-forms/essay-form'
+import FlavorForm from '../components/predefined-forms/flavor-form'
+import MultiInputForm from '../components/predefined-forms/multi-input-form'
+import UncontrolledNameForm from '../components/predefined-forms/uncontrolled-name-form'
 
 export default function Home () {
   return (

@@ -7,11 +7,11 @@
 module.exports = {
   /* Your site config here */
   plugins: [
-    {
-      resolve: 'gatsby-source-wagtail',
-      options: {
-        url: 'http://localhost:8000/graphql'
-      }
-    }
+    // {
+    //   resolve: 'gatsby-source-wagtail',
+    //   options: {
+    //     url: 'http://localhost:8000/graphql'
+    //   }
+    // }
   ]
 }

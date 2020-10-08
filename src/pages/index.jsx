@@ -4,6 +4,7 @@ import NameForm from '../components/name-form'
 import EssayForm from '../components/essay-form'
 import FlavorForm from '../components/flavor-form'
 import MultiInputForm from '../components/multi-input-form'
+import UncontrolledNameForm from '../components/uncontrolled-name-form'
 
 export default function Home () {
   return (
@@ -25,6 +26,9 @@ export default function Home () {
       <br />
       <input value='hi' />
       <input value={null} disabled />
+      <br />
+      <br />
+      <UncontrolledNameForm />
     </>
   )
 }

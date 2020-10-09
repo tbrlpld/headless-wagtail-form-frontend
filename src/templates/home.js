@@ -1,7 +1,7 @@
 import React from 'react'
-import { Link } from 'gatsby'
+import { Link, graphql } from 'gatsby'
 
-export default function Home () {
+export default function () {
   return (
     <>
       <h1>Hello to the world!</h1>
@@ -9,3 +9,7 @@ export default function Home () {
     </>
   )
 }
+
+// export const query = graphql`
+
+// `

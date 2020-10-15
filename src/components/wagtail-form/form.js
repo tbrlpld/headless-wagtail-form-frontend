@@ -7,18 +7,34 @@ export default class Form extends React.Component {
     this.intro = props.intro
     this.thankYouText = props.thankYouText
     this.fields = props.fields
+    this.fields.forEach((field, index) => {
+      field.ref = React.createRef()
+    })
 
     this.getFields = this.getFields.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   getFields () {
-    const fieldElements = this.fields.map(item => <div key={item.id}>{item.cleanName}</div>)
+    const fieldElements = this.fields.map(field => {
+      return (
+        <input
+          key={field.id}
+          defaultValue={field.defaultValue}
+          name={field.cleanName}
+          ref={field.ref}
+        />
+      )
+    })
     return fieldElements
   }
 
-  handleSubmit () {
-    alert('Submitted')
+  handleSubmit (event) {
+    event.preventDefault()
+    const fieldStrings = this.fields.map((field) => {
+      return `\n${field.cleanName}: ${field.ref.current.value}`
+    })
+    alert(`Submitted\n${fieldStrings}`)
   }
 
   render () {

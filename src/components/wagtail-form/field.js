@@ -57,6 +57,18 @@ const Field = React.forwardRef((props, ref) => {
         />
       )
       break
+    case 'url':
+      fieldElement = (
+        <input
+          type='url'
+          ref={ref}
+          defaultValue={props.defaultValue}
+          name={props.cleanName}
+          required={props.required}
+          placeholder={props.cleanName === 'phone' ? '123-456-7890' : props.helpText}
+        />
+      )
+      break
     case 'hidden':
       fieldElement = (
         <input

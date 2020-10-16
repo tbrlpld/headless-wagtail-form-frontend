@@ -1,0 +1,5 @@
+.form label,
+.form textarea,
+.form input {
+  display: block
+}

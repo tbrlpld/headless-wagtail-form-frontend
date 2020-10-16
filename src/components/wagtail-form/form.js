@@ -2,6 +2,8 @@ import React from 'react'
 
 import Field from './field'
 
+import style from './form.module.css'
+
 export default class Form extends React.Component {
   constructor (props) {
     super(props)
@@ -41,7 +43,7 @@ export default class Form extends React.Component {
   render () {
     const fields = this.getFieldElements()
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className={style.form}>
         <h3>{this.title}</h3>
         <div dangerouslySetInnerHTML={{ __html: this.intro }} />
         {fields}

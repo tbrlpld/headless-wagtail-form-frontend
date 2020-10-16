@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Field from './field'
+
 export default class Form extends React.Component {
   constructor (props) {
     super(props)
@@ -11,18 +13,17 @@ export default class Form extends React.Component {
       field.ref = React.createRef()
     })
 
-    this.getFields = this.getFields.bind(this)
+    this.getFieldElements = this.getFieldElements.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  getFields () {
+  getFieldElements () {
     const fieldElements = this.fields.map(field => {
       return (
-        <input
+        <Field
           key={field.id}
-          defaultValue={field.defaultValue}
-          name={field.cleanName}
           ref={field.ref}
+          {...field}
         />
       )
     })
@@ -38,7 +39,7 @@ export default class Form extends React.Component {
   }
 
   render () {
-    const fields = this.getFields()
+    const fields = this.getFieldElements()
     return (
       <form onSubmit={this.handleSubmit}>
         <h3>{this.title}</h3>

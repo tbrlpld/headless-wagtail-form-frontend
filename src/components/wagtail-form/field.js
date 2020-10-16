@@ -7,16 +7,34 @@ const Field = React.forwardRef((props, ref) => {
   // defaultValue
   // helpText
   // required
+  let fieldElement
+  switch (props.fieldType.toLowerCase()) {
+    case 'multiline':
+      fieldElement = (
+        <textarea
+          ref={ref}
+          defaultValue={props.defaultValue}
+          name={props.cleanName}
+          required={props.required}
+          placeholder={props.helpText}
+        />
+      )
+      break
+    default:
+      fieldElement = (
+        <input
+          ref={ref}
+          defaultValue={props.defaultValue}
+          name={props.cleanName}
+          required={props.required}
+          placeholder={props.helpText}
+        />
+      )
+  }
   return (
     <>
       <label htmlFor={props.cleanName}>{props.label}</label>
-      <input
-        ref={ref}
-        defaultValue={props.defaultValue}
-        name={props.cleanName}
-        required={props.required}
-        placeholder={props.helpText}
-      />
+      {fieldElement}
     </>
   )
 })

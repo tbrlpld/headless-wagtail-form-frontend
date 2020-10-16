@@ -1,7 +1,6 @@
 import React from 'react'
 
 const Field = React.forwardRef((props, ref) => {
-  // label
   // cleanName
   // fieldType
   // choices
@@ -9,11 +8,16 @@ const Field = React.forwardRef((props, ref) => {
   // helpText
   // required
   return (
-    <input
-      defaultValue={props.defaultValue}
-      name={props.cleanName}
-      ref={ref}
-    />
+    <>
+      <label htmlFor={props.cleanName}>{props.label}</label>
+      <input
+        ref={ref}
+        defaultValue={props.defaultValue}
+        name={props.cleanName}
+        required={props.required}
+        placeholder={props.helpText}
+      />
+    </>
   )
 })
 export default Field

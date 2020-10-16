@@ -47,12 +47,13 @@ const Field = React.forwardRef((props, ref) => {
     case 'number':
       fieldElement = (
         <input
-          type='number'
+          type={props.cleanName === 'phone' ? 'tel' : 'number'}
+          pattern={props.cleanName === 'phone' ? '[0-9]{3}-[0-9]{3}-[0-9]{4}' : null}
           ref={ref}
           defaultValue={props.defaultValue}
           name={props.cleanName}
           required={props.required}
-          placeholder={props.helpText}
+          placeholder={props.cleanName === 'phone' ? '123-456-7890' : props.helpText}
         />
       )
       break

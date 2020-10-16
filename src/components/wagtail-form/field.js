@@ -20,6 +20,18 @@ const Field = React.forwardRef((props, ref) => {
         />
       )
       break
+    case 'hidden':
+      fieldElement = (
+        <input
+          type='hidden'
+          ref={ref}
+          defaultValue={props.defaultValue}
+          name={props.cleanName}
+          required={props.required}
+          placeholder={props.helpText}
+        />
+      )
+      break
     default:
       fieldElement = (
         <input
@@ -31,9 +43,12 @@ const Field = React.forwardRef((props, ref) => {
         />
       )
   }
+  const label = (props.label && props.fieldType.toLowerCase() !== 'hidden')
+    ? (<label htmlFor={props.cleanName}>{props.label}</label>)
+    : null
   return (
     <>
-      <label htmlFor={props.cleanName}>{props.label}</label>
+      {label}
       {fieldElement}
     </>
   )

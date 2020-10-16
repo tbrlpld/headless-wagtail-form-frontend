@@ -32,6 +32,30 @@ const Field = React.forwardRef((props, ref) => {
         />
       )
       break
+    case 'email':
+      fieldElement = (
+        <input
+          type='email'
+          ref={ref}
+          defaultValue={props.defaultValue}
+          name={props.cleanName}
+          required={props.required}
+          placeholder={props.helpText}
+        />
+      )
+      break
+    case 'number':
+      fieldElement = (
+        <input
+          type='number'
+          ref={ref}
+          defaultValue={props.defaultValue}
+          name={props.cleanName}
+          required={props.required}
+          placeholder={props.helpText}
+        />
+      )
+      break
     case 'hidden':
       fieldElement = (
         <input

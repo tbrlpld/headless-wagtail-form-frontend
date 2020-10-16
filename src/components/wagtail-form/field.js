@@ -20,6 +20,18 @@ const Field = React.forwardRef((props, ref) => {
         />
       )
       break
+    case 'singleline':
+      fieldElement = (
+        <input
+          type='text'
+          ref={ref}
+          defaultValue={props.defaultValue}
+          name={props.cleanName}
+          required={props.required}
+          placeholder={props.helpText}
+        />
+      )
+      break
     case 'hidden':
       fieldElement = (
         <input

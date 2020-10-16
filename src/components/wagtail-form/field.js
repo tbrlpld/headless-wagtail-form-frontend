@@ -15,6 +15,7 @@ const Field = React.forwardRef((props, ref) => {
           ref={ref}
           defaultValue={props.defaultValue}
           name={props.cleanName}
+          id={props.id}
           required={props.required}
           placeholder={props.helpText}
         />
@@ -27,6 +28,7 @@ const Field = React.forwardRef((props, ref) => {
           ref={ref}
           defaultValue={props.defaultValue}
           name={props.cleanName}
+          id={props.id}
           required={props.required}
           placeholder={props.helpText}
         />
@@ -39,6 +41,7 @@ const Field = React.forwardRef((props, ref) => {
           ref={ref}
           defaultValue={props.defaultValue}
           name={props.cleanName}
+          id={props.id}
           required={props.required}
           placeholder={props.helpText}
         />
@@ -52,6 +55,7 @@ const Field = React.forwardRef((props, ref) => {
           ref={ref}
           defaultValue={props.defaultValue}
           name={props.cleanName}
+          id={props.id}
           required={props.required}
           placeholder={props.cleanName === 'phone' ? '123-456-7890' : props.helpText}
         />
@@ -64,8 +68,21 @@ const Field = React.forwardRef((props, ref) => {
           ref={ref}
           defaultValue={props.defaultValue}
           name={props.cleanName}
+          id={props.id}
           required={props.required}
           placeholder={props.cleanName === 'phone' ? '123-456-7890' : props.helpText}
+        />
+      )
+      break
+    case 'checkbox':
+      fieldElement = (
+        <input
+          type='checkbox'
+          ref={ref}
+          defaultChecked={props.defaultValue === 'on'}
+          name={props.cleanName}
+          id={props.id}
+          required={props.required}
         />
       )
       break
@@ -76,6 +93,7 @@ const Field = React.forwardRef((props, ref) => {
           ref={ref}
           defaultValue={props.defaultValue}
           name={props.cleanName}
+          id={props.id}
           required={props.required}
           placeholder={props.helpText}
         />
@@ -87,13 +105,14 @@ const Field = React.forwardRef((props, ref) => {
           ref={ref}
           defaultValue={props.defaultValue}
           name={props.cleanName}
+          id={props.id}
           required={props.required}
           placeholder={props.helpText}
         />
       )
   }
   const label = (props.label && props.fieldType.toLowerCase() !== 'hidden')
-    ? (<label htmlFor={props.cleanName}>{props.label}</label>)
+    ? (<label htmlFor={props.id}>{props.label}</label>)
     : null
   return (
     <>

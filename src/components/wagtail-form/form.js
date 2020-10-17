@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Field from './field'
+import WagtailField from './field'
 
 import style from './form.module.css'
 
@@ -22,7 +22,7 @@ export default class Form extends React.Component {
   getFieldElements () {
     const fieldElements = this.fields.map(field => {
       return (
-        <Field
+        <WagtailField
           key={field.id}
           ref={field.ref}
           {...field}

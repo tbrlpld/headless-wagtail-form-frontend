@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MultiLineField = React.forwardRef((props, ref) => {
+const TextAreaField = React.forwardRef((props, ref) => {
   return (
     <textarea
       ref={ref}
@@ -13,7 +13,7 @@ const MultiLineField = React.forwardRef((props, ref) => {
   )
 })
 
-const GenericField = React.forwardRef((props, ref) => {
+const GenericInputField = React.forwardRef((props, ref) => {
   return (
     <input
       type={props.type}
@@ -43,7 +43,7 @@ const CheckboxField = React.forwardRef((props, ref) => {
   )
 })
 
-const Field = React.forwardRef((props, ref) => {
+const WagtailField = React.forwardRef((props, ref) => {
   // cleanName
   // fieldType
   // choices
@@ -53,17 +53,17 @@ const Field = React.forwardRef((props, ref) => {
   let fieldElement
   switch (props.fieldType.toLowerCase()) {
     case 'multiline':
-      fieldElement = <MultiLineField ref={ref} {...props} />
+      fieldElement = <TextAreaField ref={ref} {...props} />
       break
     case 'singleline':
-      fieldElement = <GenericField type='text' ref={ref} {...props} />
+      fieldElement = <GenericInputField type='text' ref={ref} {...props} />
       break
     case 'email':
-      fieldElement = <GenericField type='email' ref={ref} {...props} />
+      fieldElement = <GenericInputField type='email' ref={ref} {...props} />
       break
     case 'number':
       fieldElement = (
-        <GenericField
+        <GenericInputField
           type={props.cleanName === 'phone' ? 'tel' : 'number'}
           ref={ref}
           {...props}
@@ -71,16 +71,16 @@ const Field = React.forwardRef((props, ref) => {
       )
       break
     case 'url':
-      fieldElement = <GenericField type='url' ref={ref} {...props} />
+      fieldElement = <GenericInputField type='url' ref={ref} {...props} />
       break
     case 'checkbox':
       fieldElement = <CheckboxField ref={ref} {...props} />
       break
     case 'hidden':
-      fieldElement = <GenericField type='hidden' ref={ref} {...props} />
+      fieldElement = <GenericInputField type='hidden' ref={ref} {...props} />
       break
     default:
-      fieldElement = <GenericField type='text' ref={ref} {...props} />
+      fieldElement = <GenericInputField type='text' ref={ref} {...props} />
   }
   const label = (props.label && props.fieldType.toLowerCase() !== 'hidden')
     ? (<label htmlFor={props.id}>{props.label}</label>)
@@ -92,4 +92,4 @@ const Field = React.forwardRef((props, ref) => {
     </>
   )
 })
-export default Field
+export default WagtailField

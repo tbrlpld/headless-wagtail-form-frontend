@@ -22,9 +22,8 @@ export default class Form extends React.Component {
   getFieldElements () {
     const fieldElements = this.fields.map(field => {
       return (
-        <div className={style.fieldWrapper}>
+        <div key={field.id} className={style.fieldWrapper}>
           <WagtailField
-            key={field.id}
             ref={field.ref}
             {...field}
           />
@@ -39,6 +38,8 @@ export default class Form extends React.Component {
     const fieldStrings = this.fields.map((field) => {
       let value = field.ref.current.value
       if (field.fieldType.toLowerCase() === 'checkbox') {
+        value = field.ref.current.checked
+      } else if (field.fieldType.toLowerCase() === 'checkboxes') {
         value = field.ref.current.checked
       }
       return `\n${field.cleanName}: ${value}`

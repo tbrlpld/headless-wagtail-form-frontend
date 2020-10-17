@@ -22,11 +22,13 @@ export default class Form extends React.Component {
   getFieldElements () {
     const fieldElements = this.fields.map(field => {
       return (
-        <WagtailField
-          key={field.id}
-          ref={field.ref}
-          {...field}
-        />
+        <div className={style.fieldWrapper}>
+          <WagtailField
+            key={field.id}
+            ref={field.ref}
+            {...field}
+          />
+        </div>
       )
     })
     return fieldElements
@@ -47,7 +49,7 @@ export default class Form extends React.Component {
   render () {
     const fields = this.getFieldElements()
     return (
-      <form onSubmit={this.handleSubmit} className={style.form}>
+      <form onSubmit={this.handleSubmit}>
         <h3>{this.title}</h3>
         <div dangerouslySetInnerHTML={{ __html: this.intro }} />
         {fields}

@@ -1,35 +1,50 @@
 import React from 'react'
 
+import style from './field.module.css'
+
+const FieldLabel = (props) => {
+  const label = (props.label && props.fieldType.toLowerCase() !== 'hidden')
+    ? (<label htmlFor={props.htmlFor} className={props.className}>{props.label}</label>)
+    : null
+  return label
+}
+
 const TextAreaField = React.forwardRef((props, ref) => {
   return (
-    <textarea
-      ref={ref}
-      defaultValue={props.defaultValue}
-      name={props.cleanName}
-      id={props.id}
-      required={props.required}
-      placeholder={props.helpText}
-    />
+    <div className={style.fieldContainer}>
+      <FieldLabel htmlFor={props.id} label={props.label} fieldType={props.fieldType} className={style.fieldLabel} />
+      <textarea
+        ref={ref}
+        defaultValue={props.defaultValue}
+        name={props.cleanName}
+        id={props.id}
+        required={props.required}
+        placeholder={props.helpText}
+      />
+    </div>
   )
 })
 
 const GenericInputField = React.forwardRef((props, ref) => {
   return (
-    <input
-      type={props.type}
-      ref={ref}
-      defaultValue={props.defaultValue}
-      name={props.cleanName}
-      id={props.id}
-      required={props.required}
-      placeholder={props.helpText}
-    />
+    <div className={style.fieldContainer}>
+      <FieldLabel htmlFor={props.id} label={props.label} fieldType={props.fieldType} className={style.fieldLabel} />
+      <input
+        type={props.type}
+        ref={ref}
+        defaultValue={props.defaultValue}
+        name={props.cleanName}
+        id={props.id}
+        required={props.required}
+        placeholder={props.helpText}
+      />
+    </div>
   )
 })
 
 const CheckboxField = React.forwardRef((props, ref) => {
   return (
-    <div>
+    <div className={style.fieldContainer}>
       <input
         type='checkbox'
         ref={ref}
@@ -38,7 +53,8 @@ const CheckboxField = React.forwardRef((props, ref) => {
         id={props.id}
         required={props.required}
       />
-      <div>{props.helpText}</div>
+      <FieldLabel htmlFor={props.id} label={props.label} fieldType={props.fieldType} />
+      <div className={style.checkboxHelpText}>{props.helpText}</div>
     </div>
   )
 })
@@ -82,14 +98,7 @@ const WagtailField = React.forwardRef((props, ref) => {
     default:
       fieldElement = <GenericInputField type='text' ref={ref} {...props} />
   }
-  const label = (props.label && props.fieldType.toLowerCase() !== 'hidden')
-    ? (<label htmlFor={props.id}>{props.label}</label>)
-    : null
-  return (
-    <>
-      {label}
-      {fieldElement}
-    </>
-  )
+
+  return fieldElement
 })
 export default WagtailField

@@ -1,5 +1,3 @@
-.form label,
-.form textarea,
-.form input {
-  display: block
+.fieldWrapper {
+  padding-bottom: 12px;
 }

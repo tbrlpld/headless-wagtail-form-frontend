@@ -35,7 +35,11 @@ export default class Form extends React.Component {
   handleSubmit (event) {
     event.preventDefault()
     const fieldStrings = this.fields.map((field) => {
-      return `\n${field.cleanName}: ${field.ref.current.value}`
+      let value = field.ref.current.value
+      if (field.fieldType.toLowerCase() === 'checkbox') {
+        value = field.ref.current.checked
+      }
+      return `\n${field.cleanName}: ${value}`
     })
     alert(`Submitted\n${fieldStrings}`)
   }

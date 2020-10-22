@@ -19,7 +19,7 @@ export default class Form extends React.Component {
           const name = choice.trim()
           return {
             name: name,
-            slug: slugify(name.toLowerCase()),
+            slug: slugify(field.cleanName.toLowerCase() + '-' + name.toLowerCase()),
             ref: React.createRef()
           }
         })

@@ -1,4 +1,5 @@
 import React from 'react'
+import slugify from 'slugify'
 
 import WagtailField from './field'
 
@@ -15,8 +16,10 @@ export default class Form extends React.Component {
       field.ref = React.createRef()
       if (field.fieldType.toLowerCase() === 'checkboxes') {
         field.choices = field.choices.split(',').map(choice => {
+          const name = choice.trim()
           return {
-            name: choice.trim(),
+            name: name,
+            slug: slugify(name.toLowerCase()),
             ref: React.createRef()
           }
         })

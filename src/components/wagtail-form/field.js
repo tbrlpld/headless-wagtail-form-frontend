@@ -70,10 +70,10 @@ const MultiCheckboxField = React.forwardRef((props, ref) => {
           ref={choice.ref}
           defaultChecked={defaults.includes(choice.name)}
           name={choice.name}
-          id={choice.name.toLowerCase()}
+          id={choice.slug}
           value={choice.name}
         />
-        <FieldLabel htmlFor={choice.name.toLowerCase()} label={choice.name} fieldType={props.fieldType} />
+        <FieldLabel htmlFor={choice.slug} label={choice.name} fieldType={props.fieldType} />
       </div>
     )
   })

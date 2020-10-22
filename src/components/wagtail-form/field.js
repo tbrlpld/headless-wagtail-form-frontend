@@ -60,21 +60,20 @@ const CheckboxField = React.forwardRef((props, ref) => {
 })
 
 const MultiCheckboxField = React.forwardRef((props, ref) => {
-  const choices = props.choices.split(',').map(choice => choice.trim())
-  console.log(choices)
-  const defaults = props.defaultValue.split(',').map(choice => choice.trim())
+  const choices = props.choices
+  const defaults = props.defaultValue
   const choiceElements = choices.map(choice => {
     return (
-      <div key={choice} className={style.multiCheckboxChoice}>
+      <div key={choice.name} className={style.multiCheckboxChoice}>
         <input
           type='checkbox'
-          ref={ref}
-          defaultChecked={defaults.includes(choice)}
-          name={choice}
-          id={choice.toLowerCase()}
-          value={choice}
+          ref={choice.ref}
+          defaultChecked={defaults.includes(choice.name)}
+          name={choice.name}
+          id={choice.name.toLowerCase()}
+          value={choice.name}
         />
-        <FieldLabel htmlFor={choice.toLowerCase()} label={choice} fieldType={props.fieldType} />
+        <FieldLabel htmlFor={choice.name.toLowerCase()} label={choice.name} fieldType={props.fieldType} />
       </div>
     )
   })

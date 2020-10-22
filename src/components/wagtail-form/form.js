@@ -13,6 +13,15 @@ export default class Form extends React.Component {
     this.fields = props.fields
     this.fields.forEach((field, index) => {
       field.ref = React.createRef()
+      if (field.fieldType.toLowerCase() === 'checkboxes') {
+        field.choices = field.choices.split(',').map(choice => {
+          return {
+            name: choice.trim(),
+            ref: React.createRef()
+          }
+        })
+        field.defaultValue = field.defaultValue.split(',').map(defaultValue => defaultValue.trim())
+      }
     })
 
     this.getFieldElements = this.getFieldElements.bind(this)
@@ -35,12 +44,21 @@ export default class Form extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault()
+    let value = null
     const fieldStrings = this.fields.map((field) => {
-      let value = field.ref.current.value
       if (field.fieldType.toLowerCase() === 'checkbox') {
         value = field.ref.current.checked
       } else if (field.fieldType.toLowerCase() === 'checkboxes') {
-        value = field.ref.current.checked
+        // value = field.ref.current.checked
+        value = []
+        field.choices.forEach(choice => {
+          if (choice.ref.current.checked) {
+            value.push(choice.name)
+          }
+        })
+        value = value.toString()
+      } else {
+        value = field.ref.current.value
       }
       return `\n${field.cleanName}: ${value}`
     })

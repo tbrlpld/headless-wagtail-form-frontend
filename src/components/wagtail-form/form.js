@@ -8,13 +8,19 @@ import style from './form.module.css'
 export default class Form extends React.Component {
   constructor (props) {
     super(props)
+
     this.title = props.title
     this.intro = props.intro
     this.thankYouText = props.thankYouText
+
+    this.choiceFieldTypes = [
+      'checkboxes',
+      'dropdown'
+    ]
     this.fields = props.fields
     this.fields.forEach((field, index) => {
       field.ref = React.createRef()
-      if (field.fieldType.toLowerCase() === 'checkboxes') {
+      if (this.choiceFieldTypes.includes(field.fieldType.toLowerCase())) {
         field.choices = field.choices.split(',').map(choice => {
           const name = choice.trim()
           return {
@@ -23,7 +29,9 @@ export default class Form extends React.Component {
             ref: React.createRef()
           }
         })
-        field.defaultValue = field.defaultValue.split(',').map(defaultValue => defaultValue.trim())
+        if (field.fieldType === 'checkboxes') {
+          field.defaultValue = field.defaultValue.split(',').map(defaultValue => defaultValue.trim())
+        }
       }
     })
 

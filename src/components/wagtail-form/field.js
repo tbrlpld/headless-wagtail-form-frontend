@@ -88,6 +88,26 @@ const MultiCheckboxField = React.forwardRef((props, ref) => {
   )
 })
 
+const DropDownField = React.forwardRef((props, ref) => {
+  const choices = props.choices
+  let defaultValue = ''
+  const choiceElements = choices.map(choice => {
+    if (choice.name === props.defaultValue) { defaultValue = choice.name }
+    return (
+      <option key={choice.slug} value={choice.name}>{choice.name}</option>
+    )
+  })
+  return (
+    <div className={style.fieldContainer}>
+      <FieldLabel htmlFor={props.cleanName} label={props.label} fieldType={props.fieldType} className={style.fieldLabel} />
+      <select id={props.cleanName} name={props.cleanName} value={defaultValue}>
+        <option key='placeholder-option' value='' disabled>{props.helpText}</option>
+        {choiceElements}
+      </select>
+    </div>
+  )
+})
+
 const WagtailField = React.forwardRef((props, ref) => {
   // cleanName
   // fieldType
@@ -123,6 +143,9 @@ const WagtailField = React.forwardRef((props, ref) => {
       break
     case 'checkboxes':
       fieldElement = <MultiCheckboxField ref={ref} {...props} />
+      break
+    case 'dropdown':
+      fieldElement = <DropDownField ref={ref} {...props} />
       break
     case 'hidden':
       fieldElement = <GenericInputField type='hidden' ref={ref} {...props} />

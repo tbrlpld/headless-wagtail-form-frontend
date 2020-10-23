@@ -3,27 +3,8 @@ import React from 'react'
 import style from './field.module.css'
 
 const FieldLabel = (props) => {
-  const label = (props.label && props.fieldType.toLowerCase() !== 'hidden')
-    ? (<label htmlFor={props.htmlFor} className={props.className}>{props.label}</label>)
-    : null
-  return label
+  return <label htmlFor={props.htmlFor} className={props.className}>{props.label}</label>
 }
-
-const TextAreaField = React.forwardRef((props, ref) => {
-  return (
-    <div className={style.fieldContainer}>
-      <FieldLabel htmlFor={props.id} label={props.label} fieldType={props.fieldType} className={style.fieldLabel} />
-      <textarea
-        ref={ref}
-        defaultValue={props.defaultValue}
-        name={props.cleanName}
-        id={props.id}
-        required={props.required}
-        placeholder={props.helpText}
-      />
-    </div>
-  )
-})
 
 const DataList = ({ id, choices }) => {
   let datalist = null
@@ -38,12 +19,28 @@ const DataList = ({ id, choices }) => {
   return datalist
 }
 
+const TextAreaField = React.forwardRef((props, ref) => {
+  return (
+    <div className={style.fieldContainer}>
+      <FieldLabel htmlFor={props.id} label={props.label} className={style.fieldLabel} />
+      <textarea
+        ref={ref}
+        defaultValue={props.defaultValue}
+        name={props.cleanName}
+        id={props.id}
+        required={props.required}
+        placeholder={props.helpText}
+      />
+    </div>
+  )
+})
+
 const GenericInputField = React.forwardRef((props, ref) => {
   const datalistId = props.id + '-datalist'
   const datalist = <DataList id={datalistId} choices={props.choices} />
   return (
     <div className={style.fieldContainer}>
-      <FieldLabel htmlFor={props.id} label={props.label} fieldType={props.fieldType} className={style.fieldLabel} />
+      <FieldLabel htmlFor={props.id} label={props.label} className={style.fieldLabel} />
       <input
         type={props.type}
         ref={ref}
@@ -59,6 +56,21 @@ const GenericInputField = React.forwardRef((props, ref) => {
   )
 })
 
+const HiddenField = React.forwardRef((props, ref) => {
+  return (
+    <div className={style.hiddenFieldContainer}>
+      <input
+        type='hidden'
+        ref={ref}
+        defaultValue={props.defaultValue}
+        name={props.cleanName}
+        id={props.id}
+        required={props.required}
+      />
+    </div>
+  )
+})
+
 const CheckboxField = React.forwardRef((props, ref) => {
   return (
     <div className={style.fieldContainer}>
@@ -70,7 +82,7 @@ const CheckboxField = React.forwardRef((props, ref) => {
         id={props.id}
         required={props.required}
       />
-      <FieldLabel htmlFor={props.id} label={props.label} fieldType={props.fieldType} />
+      <FieldLabel htmlFor={props.id} label={props.label} />
       <div className={style.checkboxHelpText}>{props.helpText}</div>
     </div>
   )
@@ -90,7 +102,7 @@ const MultiCheckboxField = React.forwardRef((props, ref) => {
           id={choice.slug}
           value={choice.name}
         />
-        <FieldLabel htmlFor={choice.slug} label={choice.name} fieldType={props.fieldType} />
+        <FieldLabel htmlFor={choice.slug} label={choice.name} />
       </div>
     )
   })
@@ -116,7 +128,7 @@ const DropDownField = React.forwardRef((props, ref) => {
   })
   return (
     <div className={style.fieldContainer}>
-      <FieldLabel htmlFor={props.cleanName} label={props.label} fieldType={props.fieldType} className={style.fieldLabel} />
+      <FieldLabel htmlFor={props.cleanName} label={props.label} className={style.fieldLabel} />
       <select ref={ref} id={props.cleanName} name={props.cleanName} value={defaultValue}>
         <option key='placeholder-option' value='' disabled>{props.helpText}</option>
         {choiceElements}
@@ -165,7 +177,7 @@ const WagtailField = React.forwardRef((props, ref) => {
       fieldElement = <DropDownField ref={ref} {...props} />
       break
     case 'hidden':
-      fieldElement = <GenericInputField type='hidden' ref={ref} {...props} />
+      fieldElement = <HiddenField type='hidden' ref={ref} {...props} />
       break
     default:
       fieldElement = <GenericInputField type='text' ref={ref} {...props} />

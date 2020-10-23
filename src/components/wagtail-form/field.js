@@ -25,7 +25,22 @@ const TextAreaField = React.forwardRef((props, ref) => {
   )
 })
 
+const DataList = ({ id, choices }) => {
+  let datalist = null
+  if (choices !== []) {
+    const dataListOptions = choices.map(choice => {
+      return (<option key={id + '-' + choice.name} value={choice.name}>{choice.name}</option>)
+    })
+    datalist = (
+      <datalist id={id}>{dataListOptions}</datalist>
+    )
+  }
+  return datalist
+}
+
 const GenericInputField = React.forwardRef((props, ref) => {
+  const datalistId = props.id + '-datalist'
+  const datalist = <DataList id={datalistId} choices={props.choices} />
   return (
     <div className={style.fieldContainer}>
       <FieldLabel htmlFor={props.id} label={props.label} fieldType={props.fieldType} className={style.fieldLabel} />
@@ -37,7 +52,9 @@ const GenericInputField = React.forwardRef((props, ref) => {
         id={props.id}
         required={props.required}
         placeholder={props.helpText}
+        list={datalistId}
       />
+      {datalist}
     </div>
   )
 })

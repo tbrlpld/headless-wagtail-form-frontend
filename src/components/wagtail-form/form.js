@@ -13,25 +13,21 @@ export default class Form extends React.Component {
     this.intro = props.intro
     this.thankYouText = props.thankYouText
 
-    this.choiceFieldTypes = [
-      'checkboxes',
-      'dropdown'
-    ]
     this.fields = props.fields
-    this.fields.forEach((field, index) => {
+    this.fields.forEach((field) => {
       field.ref = React.createRef()
-      if (this.choiceFieldTypes.includes(field.fieldType.toLowerCase())) {
-        field.choices = field.choices.split(',').map(choice => {
-          const name = choice.trim()
-          return {
-            name: name,
-            slug: slugify(field.cleanName.toLowerCase() + '-' + name.toLowerCase()),
-            ref: React.createRef()
-          }
-        })
-        if (field.fieldType === 'checkboxes') {
-          field.defaultValue = field.defaultValue.split(',').map(defaultValue => defaultValue.trim())
+      field.choices = field.choices.split(',')
+      field.choices = field.choices.filter(choice => choice !== '')
+      field.choices = field.choices.map(choice => {
+        return {
+          name: choice,
+          slug: slugify(field.cleanName.toLowerCase() + '-' + choice.toLowerCase()),
+          ref: React.createRef()
         }
+      })
+      console.log(field.choices)
+      if (field.fieldType === 'checkboxes') {
+        field.defaultValue = field.defaultValue.split(',').map(defaultValue => defaultValue.trim())
       }
     })
 

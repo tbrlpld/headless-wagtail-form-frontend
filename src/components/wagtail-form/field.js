@@ -119,17 +119,24 @@ const MultiCheckboxField = React.forwardRef((props, ref) => {
 
 const DropDownField = React.forwardRef((props, ref) => {
   const choices = props.choices
-  let defaultValue = ''
+  const multiple = !!props.multiple
+  let defaultValue = null
+  if (multiple) {
+    defaultValue = props.defaultValue.split(',').map(defVal => defVal.trim())
+  } else {
+    // Select the placeholder if no default value is defined
+    defaultValue = ''
+  }
   const choiceElements = choices.map(choice => {
-    if (choice.name === props.defaultValue) { defaultValue = choice.name }
+    if (!multiple && choice.name === props.defaultValue) { defaultValue = choice.name }
     return (
-      <option key={choice.slug} value={choice.name}>{choice.name}</option>
+      <option ref={choice.ref} key={choice.slug} value={choice.name}>{choice.name}</option>
     )
   })
   return (
     <div className={style.fieldContainer}>
       <FieldLabel htmlFor={props.cleanName} label={props.label} className={style.fieldLabel} />
-      <select ref={ref} id={props.cleanName} name={props.cleanName} defaultValue={defaultValue}>
+      <select ref={ref} id={props.cleanName} name={props.cleanName} defaultValue={defaultValue} multiple={multiple}>
         <option key='placeholder-option' value='' disabled>{props.helpText}</option>
         {choiceElements}
       </select>
@@ -175,6 +182,9 @@ const WagtailField = React.forwardRef((props, ref) => {
       break
     case 'dropdown':
       fieldElement = <DropDownField ref={ref} {...props} />
+      break
+    case 'multiselect':
+      fieldElement = <DropDownField ref={ref} multiple {...props} />
       break
     case 'hidden':
       fieldElement = <HiddenField type='hidden' ref={ref} {...props} />

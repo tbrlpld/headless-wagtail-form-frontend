@@ -63,6 +63,13 @@ export default class Form extends React.Component {
             value.push(choice.name)
           }
         })
+      } else if (field.fieldType.toLowerCase() === 'multiselect') {
+        value = []
+        field.choices.forEach(choice => {
+          if (choice.ref.current.selected) {
+            value.push(choice.name)
+          }
+        })
       } else {
         value = field.ref.current.value
       }

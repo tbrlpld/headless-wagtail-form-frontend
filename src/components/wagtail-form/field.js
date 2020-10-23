@@ -81,7 +81,7 @@ const MultiCheckboxField = React.forwardRef((props, ref) => {
     <div className={style.fieldContainer}>
       <fieldset>
         <legend>{props.label}</legend>
-        <div className={style.checkboxHelpText}>{props.helpText}</div>
+        <div className={style.helpText}>{props.helpText}</div>
         {choiceElements}
       </fieldset>
     </div>

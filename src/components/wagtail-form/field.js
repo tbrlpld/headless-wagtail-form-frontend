@@ -100,7 +100,7 @@ const DropDownField = React.forwardRef((props, ref) => {
   return (
     <div className={style.fieldContainer}>
       <FieldLabel htmlFor={props.cleanName} label={props.label} fieldType={props.fieldType} className={style.fieldLabel} />
-      <select id={props.cleanName} name={props.cleanName} value={defaultValue}>
+      <select ref={ref} id={props.cleanName} name={props.cleanName} value={defaultValue}>
         <option key='placeholder-option' value='' disabled>{props.helpText}</option>
         {choiceElements}
       </select>

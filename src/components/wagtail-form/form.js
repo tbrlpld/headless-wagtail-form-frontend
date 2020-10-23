@@ -36,6 +36,7 @@ export default class Form extends React.Component {
     })
 
     this.getFieldElements = this.getFieldElements.bind(this)
+    this.getPayload = this.getPayload.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
@@ -53,9 +54,9 @@ export default class Form extends React.Component {
     return fieldElements
   }
 
-  handleSubmit (event) {
-    event.preventDefault()
-    const fieldStrings = this.fields.map((field) => {
+  getPayload () {
+    const payload = {}
+    this.fields.forEach((field) => {
       let value = null
       if (field.fieldType.toLowerCase() === 'checkbox') {
         value = field.ref.current.checked
@@ -66,13 +67,18 @@ export default class Form extends React.Component {
             value.push(choice.name)
           }
         })
-        value = value.toString()
       } else {
         value = field.ref.current.value
       }
-      return `\n${field.cleanName}: ${value}`
+      payload[field.cleanName] = value
     })
-    alert(`Submitted\n${fieldStrings}`)
+    return payload
+  }
+
+  handleSubmit (event) {
+    event.preventDefault()
+    const payload = this.getPayload()
+    alert('Submitted\n\n' + JSON.stringify(payload, null, 4))
   }
 
   render () {

@@ -17,6 +17,7 @@ export default class Form extends React.Component {
     this.fields = props.fields
     this.fields.forEach((field) => {
       field.ref = React.createRef()
+      field.fieldType = field.fieldType.toLowerCase()
       field.choices = field.choices.split(',')
       field.choices = field.choices.filter(choice => choice !== '')
       field.choices = field.choices.map(choice => {
@@ -27,7 +28,7 @@ export default class Form extends React.Component {
           ref: React.createRef()
         }
       })
-      if (this.multiDefaultFields.includes(field.fieldType.toLowerCase())) {
+      if (this.multiDefaultFields.includes(field.fieldType)) {
         field.defaultValue = field.defaultValue.split(',')
         field.defaultValue = field.defaultValue.map(defaultValue => defaultValue.trim())
         field.defaultValue = field.defaultValue.filter(defaultValue => defaultValue !== '')
@@ -58,16 +59,22 @@ export default class Form extends React.Component {
     const payload = {}
     this.fields.forEach((field) => {
       let value = null
-      if (field.fieldType.toLowerCase() === 'checkbox') {
+      if (field.fieldType === 'checkbox') {
         value = field.ref.current.checked
-      } else if (field.fieldType.toLowerCase() === 'checkboxes') {
+      } else if (field.fieldType === 'checkboxes') {
         value = []
         field.choices.forEach(choice => {
           if (choice.ref.current.checked) {
             value.push(choice.name)
           }
         })
-      } else if (field.fieldType.toLowerCase() === 'multiselect') {
+      } else if (field.fieldType === 'radio') {
+        field.choices.forEach(choice => {
+          if (choice.ref.current.checked) {
+            value = choice.name
+          }
+        })
+      } else if (field.fieldType === 'multiselect') {
         value = []
         field.choices.forEach(choice => {
           if (choice.ref.current.selected) {

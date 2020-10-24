@@ -88,19 +88,20 @@ const CheckboxField = React.forwardRef((props, ref) => {
   )
 })
 
-const MultiCheckboxField = React.forwardRef((props, ref) => {
+const MultiOptionField = React.forwardRef((props, ref) => {
   const choices = props.choices
-  const defaults = props.defaultValue
+  const defaultValue = props.defaultValue
   const choiceElements = choices.map(choice => {
     return (
-      <div key={choice.name} className={style.multiCheckboxChoice}>
+      <div key={choice.name}>
         <input
-          type='checkbox'
+          type={props.checkType}
           ref={choice.ref}
-          defaultChecked={defaults.includes(choice.name)}
+          defaultChecked={defaultValue.includes(choice.name)}
           name={props.cleanName}
           id={choice.slug}
           value={choice.name}
+          required={props.checkType === 'radio' && props.required}
         />
         <FieldLabel htmlFor={choice.slug} label={choice.name} />
       </div>
@@ -108,7 +109,7 @@ const MultiCheckboxField = React.forwardRef((props, ref) => {
   })
   return (
     <div className={style.fieldContainer}>
-      <fieldset>
+      <fieldset defaultValue={defaultValue}>
         <legend>{props.label}</legend>
         <div className={style.helpText}>{props.helpText}</div>
         {choiceElements}
@@ -143,7 +144,7 @@ const WagtailField = React.forwardRef((props, ref) => {
   // helpText
   // required
   let fieldElement
-  switch (props.fieldType.toLowerCase()) {
+  switch (props.fieldType) {
     case 'multiline':
       fieldElement = <TextAreaField ref={ref} {...props} />
       break
@@ -169,7 +170,10 @@ const WagtailField = React.forwardRef((props, ref) => {
       fieldElement = <CheckboxField ref={ref} {...props} />
       break
     case 'checkboxes':
-      fieldElement = <MultiCheckboxField ref={ref} {...props} />
+      fieldElement = <MultiOptionField ref={ref} checkType='checkbox' {...props} />
+      break
+    case 'radio':
+      fieldElement = <MultiOptionField ref={ref} checkType='radio' {...props} />
       break
     case 'dropdown':
       fieldElement = <DropDownField ref={ref} {...props} />

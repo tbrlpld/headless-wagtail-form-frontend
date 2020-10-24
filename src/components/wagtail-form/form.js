@@ -13,22 +13,26 @@ export default class Form extends React.Component {
     this.intro = props.intro
     this.thankYouText = props.thankYouText
 
+    this.multiDefaultFields = ['checkboxes', 'multiselect']
     this.fields = props.fields
     this.fields.forEach((field) => {
       field.ref = React.createRef()
       field.choices = field.choices.split(',')
       field.choices = field.choices.filter(choice => choice !== '')
       field.choices = field.choices.map(choice => {
+        const name = choice.trim()
         return {
-          name: choice,
-          slug: slugify(field.cleanName.toLowerCase() + '-' + choice.toLowerCase()),
+          name: name,
+          slug: slugify(field.cleanName.toLowerCase() + '-' + name.toLowerCase()),
           ref: React.createRef()
         }
       })
-      console.log(field.choices)
-      if (field.fieldType === 'checkboxes') {
-        field.defaultValue = field.defaultValue.split(',').map(defaultValue => defaultValue.trim())
+      if (this.multiDefaultFields.includes(field.fieldType.toLowerCase())) {
+        field.defaultValue = field.defaultValue.split(',')
+        field.defaultValue = field.defaultValue.map(defaultValue => defaultValue.trim())
+        field.defaultValue = field.defaultValue.filter(defaultValue => defaultValue !== '')
       }
+      console.log(field.defaultValue)
     })
 
     this.getFieldElements = this.getFieldElements.bind(this)

@@ -119,16 +119,7 @@ const MultiCheckboxField = React.forwardRef((props, ref) => {
 
 const DropDownField = React.forwardRef((props, ref) => {
   const choices = props.choices
-  const multiple = !!props.multiple
-  let defaultValue = null
-  if (multiple) {
-    defaultValue = props.defaultValue.split(',').map(defVal => defVal.trim())
-  } else {
-    // Select the placeholder if no default value is defined
-    defaultValue = ''
-  }
   const choiceElements = choices.map(choice => {
-    if (!multiple && choice.name === props.defaultValue) { defaultValue = choice.name }
     return (
       <option ref={choice.ref} key={choice.slug} value={choice.name}>{choice.name}</option>
     )
@@ -136,7 +127,7 @@ const DropDownField = React.forwardRef((props, ref) => {
   return (
     <div className={style.fieldContainer}>
       <FieldLabel htmlFor={props.cleanName} label={props.label} className={style.fieldLabel} />
-      <select ref={ref} id={props.cleanName} name={props.cleanName} defaultValue={defaultValue} multiple={multiple}>
+      <select ref={ref} id={props.cleanName} name={props.cleanName} defaultValue={props.defaultValue} multiple={props.multiple}>
         <option key='placeholder-option' value='' disabled>{props.helpText}</option>
         {choiceElements}
       </select>

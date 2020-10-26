@@ -8,7 +8,7 @@ const FieldLabel = (props) => {
 
 const DataList = ({ id, choices }) => {
   let datalist = null
-  if (choices !== []) {
+  if (choices.length > 0) {
     const dataListOptions = choices.map(choice => {
       return (<option key={id + '-' + choice.name} value={choice.name}>{choice.name}</option>)
     })
@@ -36,7 +36,7 @@ const TextAreaField = React.forwardRef((props, ref) => {
 })
 
 const GenericInputField = React.forwardRef((props, ref) => {
-  const datalistId = props.id + '-datalist'
+  const datalistId = 'datalist-' + props.id
   const datalist = <DataList id={datalistId} choices={props.choices} />
   return (
     <div className={style.fieldContainer}>

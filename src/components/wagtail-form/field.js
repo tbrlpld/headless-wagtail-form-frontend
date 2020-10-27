@@ -1,4 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 
 import style from './field.module.css'
 
@@ -136,6 +139,24 @@ const DropDownField = React.forwardRef((props, ref) => {
   )
 })
 
+const DateField = React.forwardRef((props, ref) => {
+  const [startDate, setStartDate] = useState(new Date())
+  const ExampleCustomInput = React.forwardRef(({ value, onClick, inputRef }, ref) => {
+    return (
+      <input type='text' ref={inputRef} className='example-custom-input' defaultValue={value} onClick={onClick} />
+    )
+  })
+  return (
+    <DatePicker
+      ref={ref}
+      selected={startDate}
+      onChange={date => setStartDate(date)}
+      customInput={<ExampleCustomInput />}
+      customInputRef='inputRef'
+    />
+  )
+})
+
 const WagtailField = React.forwardRef((props, ref) => {
   // cleanName
   // fieldType
@@ -180,6 +201,10 @@ const WagtailField = React.forwardRef((props, ref) => {
       break
     case 'multiselect':
       fieldElement = <DropDownField ref={ref} multiple {...props} />
+      break
+    case 'date':
+      fieldElement = <DateField ref={ref} multiple {...props} />
+      console.log(fieldElement)
       break
     case 'hidden':
       fieldElement = <HiddenField type='hidden' ref={ref} {...props} />

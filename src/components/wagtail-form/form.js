@@ -81,6 +81,9 @@ export default class Form extends React.Component {
             value.push(choice.name)
           }
         })
+      } else if (field.fieldType === 'date') {
+        console.log(field)
+        value = field.ref.current.props.selected
       } else {
         value = field.ref.current.value
       }

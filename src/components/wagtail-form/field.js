@@ -141,18 +141,11 @@ const DropDownField = React.forwardRef((props, ref) => {
 
 const DateField = React.forwardRef((props, ref) => {
   const [startDate, setStartDate] = useState(new Date())
-  const ExampleCustomInput = React.forwardRef(({ value, onClick, inputRef }, ref) => {
-    return (
-      <input type='text' ref={inputRef} className='example-custom-input' defaultValue={value} onClick={onClick} />
-    )
-  })
   return (
     <DatePicker
       ref={ref}
       selected={startDate}
       onChange={date => setStartDate(date)}
-      customInput={<ExampleCustomInput />}
-      customInputRef='inputRef'
     />
   )
 })

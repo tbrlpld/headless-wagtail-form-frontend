@@ -140,7 +140,8 @@ const DropDownField = React.forwardRef((props, ref) => {
 })
 
 const DateTimeField = React.forwardRef((props, ref) => {
-  const [startDate, setStartDate] = useState(null)
+  const defaultValue = props.defaultValue ? new Date(props.defaultValue) : null
+  const [startDate, setStartDate] = useState(defaultValue)
   return (
     <div className={style.fieldContainer}>
       <FieldLabel htmlFor={props.cleanName} label={props.label} className={style.fieldLabel} />

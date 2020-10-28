@@ -140,7 +140,15 @@ const DropDownField = React.forwardRef((props, ref) => {
 })
 
 const DateTimeField = React.forwardRef((props, ref) => {
-  const defaultValue = props.defaultValue ? new Date(props.defaultValue) : null
+  let defaultValue = null
+  if (props.defaultValue) {
+    const parsedDate = Date.parse(props.defaultValue)
+    if (!isNaN(parsedDate)) {
+      defaultValue = new Date(parsedDate)
+    } else {
+      console.warn('DateTimeField: Received invalid default date:', props.defaultValue)
+    }
+  }
   const [startDate, setStartDate] = useState(defaultValue)
   return (
     <div className={style.fieldContainer}>
@@ -207,11 +215,9 @@ const WagtailField = React.forwardRef((props, ref) => {
       break
     case 'date':
       fieldElement = <DateTimeField ref={ref} {...props} />
-      console.log(fieldElement)
       break
     case 'datetime':
       fieldElement = <DateTimeField ref={ref} timeSelect {...props} />
-      console.log(fieldElement)
       break
     case 'hidden':
       fieldElement = <HiddenField type='hidden' ref={ref} {...props} />

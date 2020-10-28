@@ -82,8 +82,16 @@ export default class Form extends React.Component {
           }
         })
       } else if (field.fieldType === 'date' || field.fieldType === 'datetime') {
-        console.log(field)
-        value = field.ref.current.props.selected
+        const date = field.ref.current.props.selected
+        const year = date.getFullYear().toString()
+        const month = (date.getMonth() + 1).toString().padStart(2, 0) // +1 because getMonth returns month 0-11 🤦‍♂️
+        const day = date.getDate().toString().padStart(2, 0)
+        value = `${year}-${month}-${day}`
+        if (field.fieldType === 'datetime') {
+          const hour = date.getHours().toString().padStart(2, 0)
+          const minute = date.getMinutes().toString().padStart(2, 0)
+          value = `${value} ${hour}:${minute}`
+        }
       } else {
         value = field.ref.current.value
       }

@@ -149,6 +149,7 @@ const DateField = React.forwardRef((props, ref) => {
         selected={startDate}
         onChange={date => setStartDate(date)}
         placeholderText={props.helpText}
+        required={props.required}
       />
     </div>
   )

@@ -142,11 +142,14 @@ const DropDownField = React.forwardRef((props, ref) => {
 const DateField = React.forwardRef((props, ref) => {
   const [startDate, setStartDate] = useState(new Date())
   return (
-    <DatePicker
-      ref={ref}
-      selected={startDate}
-      onChange={date => setStartDate(date)}
-    />
+    <div className={style.fieldContainer}>
+      <FieldLabel htmlFor={props.cleanName} label={props.label} className={style.fieldLabel} />
+      <DatePicker
+        ref={ref}
+        selected={startDate}
+        onChange={date => setStartDate(date)}
+      />
+    </div>
   )
 })
 

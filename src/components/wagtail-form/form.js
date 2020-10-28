@@ -33,7 +33,6 @@ export default class Form extends React.Component {
         field.defaultValue = field.defaultValue.map(defaultValue => defaultValue.trim())
         field.defaultValue = field.defaultValue.filter(defaultValue => defaultValue !== '')
       }
-      console.log(field.defaultValue)
     })
 
     this.getFieldElements = this.getFieldElements.bind(this)

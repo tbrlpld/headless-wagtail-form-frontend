@@ -139,7 +139,7 @@ const DropDownField = React.forwardRef((props, ref) => {
   )
 })
 
-const DateField = React.forwardRef((props, ref) => {
+const DateTimeField = React.forwardRef((props, ref) => {
   const [startDate, setStartDate] = useState(null)
   return (
     <div className={style.fieldContainer}>
@@ -150,6 +150,10 @@ const DateField = React.forwardRef((props, ref) => {
         onChange={date => setStartDate(date)}
         placeholderText={props.helpText}
         required={props.required}
+        showTimeSelect={!!props.timeSelect}
+        timeIntervals={15}
+        dateFormat={props.timeSelect ? 'Pp' : 'P'}
+        timeFormat='p'
       />
     </div>
   )
@@ -201,7 +205,11 @@ const WagtailField = React.forwardRef((props, ref) => {
       fieldElement = <DropDownField ref={ref} multiple {...props} />
       break
     case 'date':
-      fieldElement = <DateField ref={ref} multiple {...props} />
+      fieldElement = <DateTimeField ref={ref} {...props} />
+      console.log(fieldElement)
+      break
+    case 'datetime':
+      fieldElement = <DateTimeField ref={ref} timeSelect {...props} />
       console.log(fieldElement)
       break
     case 'hidden':

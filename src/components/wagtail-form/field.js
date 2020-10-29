@@ -6,7 +6,8 @@ import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import style from './field.module.css'
 
 const FieldLabel = (props) => {
-  return <label htmlFor={props.htmlFor} className={props.className}>{props.label}</label>
+  const className = style.fieldLabel + (props.className ? ' ' + props.className : '')
+  return <label htmlFor={props.htmlFor} className={className}>{props.label}{props.required ? '*' : ''}</label>
 }
 
 const DataList = ({ id, choices }) => {
@@ -22,28 +23,12 @@ const DataList = ({ id, choices }) => {
   return datalist
 }
 
-const TextAreaField = React.forwardRef((props, ref) => {
-  return (
-    <div className={style.fieldContainer}>
-      <FieldLabel htmlFor={props.id} label={props.label} className={style.fieldLabel} />
-      <textarea
-        ref={ref}
-        defaultValue={props.defaultValue}
-        name={props.cleanName}
-        id={props.id}
-        required={props.required}
-        placeholder={props.helpText}
-      />
-    </div>
-  )
-})
-
 const GenericInputField = React.forwardRef((props, ref) => {
   const datalistId = 'datalist-' + props.id
   const datalist = <DataList id={datalistId} choices={props.choices} />
   return (
     <div className={style.fieldContainer}>
-      <FieldLabel htmlFor={props.id} label={props.label} className={style.fieldLabel} />
+      <FieldLabel htmlFor={props.id} label={props.label} required={props.required} />
       <input
         type={props.type}
         ref={ref}
@@ -55,6 +40,22 @@ const GenericInputField = React.forwardRef((props, ref) => {
         list={datalistId}
       />
       {datalist}
+    </div>
+  )
+})
+
+const TextAreaField = React.forwardRef((props, ref) => {
+  return (
+    <div className={style.fieldContainer}>
+      <FieldLabel htmlFor={props.id} label={props.label} required={props.required} />
+      <textarea
+        ref={ref}
+        defaultValue={props.defaultValue}
+        name={props.cleanName}
+        id={props.id}
+        required={props.required}
+        placeholder={props.helpText}
+      />
     </div>
   )
 })
@@ -85,7 +86,7 @@ const CheckboxField = React.forwardRef((props, ref) => {
         id={props.id}
         required={props.required}
       />
-      <FieldLabel htmlFor={props.id} label={props.label} />
+      <FieldLabel htmlFor={props.id} label={props.label} className={style.checkboxFieldLabel} required={props.required} />
       <div className={style.checkboxHelpText}>{props.helpText}</div>
     </div>
   )
@@ -94,6 +95,7 @@ const CheckboxField = React.forwardRef((props, ref) => {
 const MultiOptionField = React.forwardRef((props, ref) => {
   const choices = props.choices
   const defaultValue = props.defaultValue
+  const required = props.checkType === 'radio' && props.required
   const choiceElements = choices.map(choice => {
     return (
       <div key={choice.name}>
@@ -104,16 +106,16 @@ const MultiOptionField = React.forwardRef((props, ref) => {
           name={props.cleanName}
           id={choice.slug}
           value={choice.name}
-          required={props.checkType === 'radio' && props.required}
+          required={required}
         />
-        <FieldLabel htmlFor={choice.slug} label={choice.name} />
+        <FieldLabel htmlFor={choice.slug} label={choice.name} className={style.checkboxFieldLabel} />
       </div>
     )
   })
   return (
     <div className={style.fieldContainer}>
       <fieldset defaultValue={defaultValue}>
-        <legend>{props.label}</legend>
+        <legend>{props.label}{required ? '*' : ''}</legend>
         <div className={style.helpText}>{props.helpText}</div>
         {choiceElements}
       </fieldset>
@@ -130,8 +132,8 @@ const DropDownField = React.forwardRef((props, ref) => {
   })
   return (
     <div className={style.fieldContainer}>
-      <FieldLabel htmlFor={props.cleanName} label={props.label} className={style.fieldLabel} />
-      <select ref={ref} id={props.cleanName} name={props.cleanName} defaultValue={props.defaultValue} multiple={props.multiple}>
+      <FieldLabel htmlFor={props.cleanName} label={props.label} required={props.required} />
+      <select ref={ref} id={props.cleanName} name={props.cleanName} defaultValue={props.defaultValue} multiple={props.multiple} required={props.required}>
         <option key='placeholder-option' value='' disabled>{props.helpText}</option>
         {choiceElements}
       </select>
@@ -152,7 +154,7 @@ const DateTimeField = React.forwardRef((props, ref) => {
   const [startDate, setStartDate] = useState(defaultValue)
   return (
     <div className={style.fieldContainer}>
-      <FieldLabel htmlFor={props.cleanName} label={props.label} className={style.fieldLabel} />
+      <FieldLabel htmlFor={props.cleanName} label={props.label} required={props.required} />
       <DatePicker
         ref={ref}
         selected={startDate}

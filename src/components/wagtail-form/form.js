@@ -13,14 +13,27 @@ export default class Form extends React.Component {
     this.intro = props.intro
     this.thankYouText = props.thankYouText
 
-    this.multiDefaultFields = ['checkboxes', 'multiselect']
-    this.fields = props.fields
-    this.fields.forEach((field) => {
-      field.ref = React.createRef()
-      field.fieldType = field.fieldType.toLowerCase()
-      field.choices = field.choices.split(',')
-      field.choices = field.choices.filter(choice => choice !== '')
-      field.choices = field.choices.map(choice => {
+    this.fields = this.initializeFields(props.fields)
+
+    this.getFieldElements = this.getFieldElements.bind(this)
+    this.getPayload = this.getPayload.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  initializeFields (wagtailFields) {
+    const fields = []
+    for (const wagtailField of wagtailFields) {
+      const field = {}
+      field.label = wagtailField.label
+      field.cleanName = wagtailField.cleanName
+      field.helpText = wagtailField.helpText
+      field.required = wagtailField.required
+
+      field.fieldType = wagtailField.fieldType.toLowerCase()
+
+      const choicesRaw = wagtailField.choices.split(',')
+      const choicesNonEmpty = choicesRaw.filter(choice => choice.trim() !== '')
+      field.choices = choicesNonEmpty.map(choice => {
         const name = choice.trim()
         return {
           name: name,
@@ -28,16 +41,21 @@ export default class Form extends React.Component {
           ref: React.createRef()
         }
       })
-      if (this.multiDefaultFields.includes(field.fieldType)) {
-        field.defaultValue = field.defaultValue.split(',')
-        field.defaultValue = field.defaultValue.map(defaultValue => defaultValue.trim())
-        field.defaultValue = field.defaultValue.filter(defaultValue => defaultValue !== '')
-      }
-    })
 
-    this.getFieldElements = this.getFieldElements.bind(this)
-    this.getPayload = this.getPayload.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+      const multiDefaultFields = ['checkboxes', 'multiselect']
+      if (multiDefaultFields.includes(field.fieldType)) {
+        const defaultValuesRaw = wagtailField.defaultValue.split(',')
+        const defaultValuesCleaned = defaultValuesRaw.map(defaultValue => defaultValue.trim())
+        field.defaultValue = defaultValuesCleaned.filter(defaultValue => defaultValue !== '')
+      } else {
+        field.defaultValue = wagtailField.defaultValue
+      }
+
+      field.ref = React.createRef()
+
+      fields.push(field)
+    }
+    return fields
   }
 
   getFieldElements () {
@@ -82,14 +100,16 @@ export default class Form extends React.Component {
         })
       } else if (field.fieldType === 'date' || field.fieldType === 'datetime') {
         const date = field.ref.current.props.selected
-        const year = date.getFullYear().toString()
-        const month = (date.getMonth() + 1).toString().padStart(2, 0) // +1 because getMonth returns month 0-11 🤦‍♂️
-        const day = date.getDate().toString().padStart(2, 0)
-        value = `${year}-${month}-${day}`
-        if (field.fieldType === 'datetime') {
-          const hour = date.getHours().toString().padStart(2, 0)
-          const minute = date.getMinutes().toString().padStart(2, 0)
-          value = `${value} ${hour}:${minute}`
+        if (date) {
+          const year = date.getFullYear().toString()
+          const month = (date.getMonth() + 1).toString().padStart(2, 0) // +1 because getMonth returns month 0-11 🤦‍♂️
+          const day = date.getDate().toString().padStart(2, 0)
+          value = `${year}-${month}-${day}`
+          if (field.fieldType === 'datetime') {
+            const hour = date.getHours().toString().padStart(2, 0)
+            const minute = date.getMinutes().toString().padStart(2, 0)
+            value = `${value} ${hour}:${minute}`
+          }
         }
       } else {
         value = field.ref.current.value

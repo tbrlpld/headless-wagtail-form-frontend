@@ -134,8 +134,9 @@ export default class Form extends React.Component {
   //   alert('Submitted\n\n' + JSON.stringify(payload, null, 4))
   // }
 
-  transition () {
+  transition (event) {
     console.log('State transition initiated.')
+    console.log(event)
   }
 
   triggerFormSubmit () {

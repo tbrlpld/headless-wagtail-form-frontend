@@ -19,6 +19,11 @@ export default class Form extends React.Component {
     this.events = {
       formSubmit: new CustomEvent('formSubmit', {})
     }
+    this.possibleStates = {
+      initial: { name: 'initial' },
+      submitting: { name: 'submitting' }
+    }
+    this.state = this.possibleStates.initial
 
     this.getFieldElements = this.getFieldElements.bind(this)
     this.getPayload = this.getPayload.bind(this)
@@ -136,7 +141,22 @@ export default class Form extends React.Component {
 
   transition (event) {
     console.log('State transition initiated.')
-    console.log(event)
+    console.log([this.state.name, event.type])
+    if (this.state === this.possibleStates.initial) {
+      console.log('Initial State detected')
+      if (event === this.events.formSubmit) {
+        console.log('Form submission detected')
+        this.setState(this.possibleStates.submitting)
+      }
+    }
+    // Switch statements do not work, because  ["a", "b"] === ["a", "b"] is false. Freaking JS again...
+    // switch ([this.state.name, event.type]) {
+    //   case [this.possibleStates.initial.name, this.events.formSubmit.type]:
+    //     this.setState(this.possibleStates.submitting)
+    //     break
+    //   default:
+    //     console.log('No valid transition possible')
+    // }
   }
 
   triggerFormSubmit () {
@@ -151,6 +171,7 @@ export default class Form extends React.Component {
   }
 
   render () {
+    console.log('Rendering form with state:', this.state)
     const fields = this.getFieldElements()
     return (
       <form ref={this.formRef}>

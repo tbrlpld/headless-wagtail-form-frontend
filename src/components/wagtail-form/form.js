@@ -15,15 +15,24 @@ export default class Form extends React.Component {
 
     this.fields = this.initializeFields(props.fields)
 
+    this.formRef = React.createRef()
+    this.events = {
+      formSubmit: new CustomEvent('formSubmit', {})
+    }
+
     this.getFieldElements = this.getFieldElements.bind(this)
     this.getPayload = this.getPayload.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    // this.handleSubmit = this.handleSubmit.bind(this)
+    this.transition = this.transition.bind(this)
+    this.triggerFormSubmit = this.triggerFormSubmit.bind(this)
+    this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this)
   }
 
   initializeFields (wagtailFields) {
     const fields = []
     for (const wagtailField of wagtailFields) {
       const field = {}
+      field.id = wagtailField.id
       field.label = wagtailField.label
       field.cleanName = wagtailField.cleanName
       field.helpText = wagtailField.helpText
@@ -119,21 +128,41 @@ export default class Form extends React.Component {
     return payload
   }
 
-  handleSubmit (event) {
+  // handleSubmit (event) {
+  //   event.preventDefault()
+  //   const payload = this.getPayload()
+  //   alert('Submitted\n\n' + JSON.stringify(payload, null, 4))
+  // }
+
+  transition () {
+    console.log('State transition initiated.')
+  }
+
+  triggerFormSubmit () {
+    console.log('Triggering "Form Submit"')
+    this.formRef.current.dispatchEvent(this.events.formSubmit)
+  }
+
+  handleSubmitButtonClick (event) {
+    // This method is only needed to prevent the default form action.
     event.preventDefault()
-    const payload = this.getPayload()
-    alert('Submitted\n\n' + JSON.stringify(payload, null, 4))
+    this.triggerFormSubmit()
   }
 
   render () {
     const fields = this.getFieldElements()
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form ref={this.formRef}>
         <h3>{this.title}</h3>
         <div dangerouslySetInnerHTML={{ __html: this.intro }} />
         {fields}
-        <input type='submit' value='Submit' />
+        <button onClick={this.handleSubmitButtonClick}>Submit</button>
       </form>
     )
+  }
+
+  componentDidMount () {
+    console.log('Form mounted')
+    this.formRef.current.addEventListener(this.events.formSubmit.type, this.transition)
   }
 }
